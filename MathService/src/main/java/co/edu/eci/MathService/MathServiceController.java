@@ -13,29 +13,7 @@ public class MathServiceController {
         return "OK";
     }
 
-    @GetMapping("/api/fib")
-    public long fibonacci(@RequestParam("n") int n) {
-        if (n < 0 || n > 92) {
-            throw new IllegalArgumentException("n must be in [0,92]");
-        }
-        long a = 0, b = 1;
-        for (int i = 0; i < n; i++) {
-            long tmp = a + b;
-            a = b;
-            b = tmp;
-        }
-        return a;
-    }
-
-    @GetMapping("/api/fact")
-    public long factorial(@RequestParam("n") int n) {
-        if (n < 0 || n > 20) {
-            throw new IllegalArgumentException("n must be in [0,20]");
-        }
-        long res = 1;
-        for (int i = 2; i <= n; i++) res *= i;
-        return res;
-    }
+    
 
     @GetMapping("/api/isPrime")
     public boolean isPrime(@RequestParam("n") long n) {

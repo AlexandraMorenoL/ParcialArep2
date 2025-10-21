@@ -33,7 +33,6 @@ public class ProxyController {
         return String.join(",", selector.all());
     }
 
-    // Numeric endpoints
     @GetMapping(value = "/api/fib", produces = MediaType.TEXT_PLAIN_VALUE)
     public String fib(@RequestParam("n") int n) throws IOException {
         return forward("/api/fib?n=" + n);
@@ -48,8 +47,7 @@ public class ProxyController {
     public String isPrime(@RequestParam("n") long n) throws IOException {
         return forward("/api/isPrime?n=" + n);
     }
-
-    // Search endpoints (JSON)
+    
     @GetMapping(value = "/linearsearch", produces = MediaType.APPLICATION_JSON_VALUE)
     public String linearSearch(@RequestParam("list") String listCsv,
                                @RequestParam("value") String value) throws IOException {

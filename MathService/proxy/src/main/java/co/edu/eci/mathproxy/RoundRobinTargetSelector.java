@@ -28,7 +28,7 @@ public class RoundRobinTargetSelector {
                     new URL(t);
                     targets.add(t);
                 } catch (MalformedURLException e) {
-                    // ignore invalid entry
+                
                 }
             }
             if (targets.isEmpty()) {

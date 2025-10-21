@@ -3,6 +3,50 @@
 
  Profesor: Luis Daniel Benavides Navarro
 
+## Descripción del Proyecto
+Este proyecto implementa un servicio matemático distribuido con **Spring Boot**, que ofrece dos funciones de búsqueda sobre listas de cadenas: **búsqueda lineal** y **búsqueda binaria recursiva**.  
+Adicionalmente, incluye un **proxy** que balancea las peticiones a múltiples instancias del servicio usando un algoritmo **Round Robin**.
+
+El sistema se compone de dos partes:
+- **MathService:** Servicio backend que implementa los algoritmos de búsqueda.
+- **Proxy:** Encargado de distribuir las solicitudes entre varias instancias del MathService.
+
+---
+
+## Prerrequisitos
+Antes de ejecutar el proyecto, asegúrate de tener instalado:
+
+- **Java 17 o superior**  
+- **Maven 3.9+**  
+- **Git**  
+- **Cuenta de AWS Academy** (para el despliegue en EC2)  
+- **Postman o cURL** (para probar los endpoints)  
+
+---
+
+## Estructura del Proyecto
+ ```bash
+MathService/
+├── .mvn/
+│ └── wrapper/
+├── proxy/
+│ ├── src/
+│ │ └── main/java/co/edu/eci/mathproxy/
+│ │ ├── MathProxyApplication.java
+│ │ ├── ProxyController.java
+│ │ └── RoundRobinTargetSelector.java
+│ └── resources/
+│ └── application.properties
+├── src/
+│ └── main/java/co/edu/eci/MathService/
+│ ├── MathServiceApplication.java
+│ └── MathServiceController.java
+├── test/
+├── pom.xml
+└── README.md
+
+```
+
 
 ###  Enunciado 
 El problema matemático que debo resolver es:
@@ -108,7 +152,7 @@ private String jsonResponse(String op, String inputList, String value, int outpu
             escape(op), escape(inputList), escape(value), outputIndex
         );
     }
-    
+
 ```
 
 Para la parte del proxy, creé el controlador, la aplicación del proxy el algotirmo round-robin
@@ -119,9 +163,20 @@ Para la parte del proxy, creé el controlador, la aplicación del proxy el algot
 
 ![alt text](image-4.png)
 
-Para desplegar en AWS Academy creamos las dos instancias EC2
+Para desplegar en AWS Academy creamos las dos instancias EC2 del MathService
 
 ![alt text](image-5.png)
 
 ![alt text](image-6.png)
+
+Y la otra instancia del Proxy
+![alt text](image-8.png)
+
+Compruebo la conexión con el puerto 8080 del proxy con el comando 
+```bash
+mvn spring-boot:run 
+```
+
+![alt text](image-9.png)
+
 
