@@ -1,4 +1,3 @@
-
 package co.edu.eci.MathService;
 
 import org.springframework.http.MediaType;
@@ -8,11 +7,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MathServiceController {
+
     @GetMapping("/api/health")
     public String health() {
         return "OK";
     }
-  
+
     @GetMapping("/api/fib")
     public long fibonacci(@RequestParam("n") int n) {
         if (n < 0 || n > 92) {
@@ -54,7 +54,7 @@ public class MathServiceController {
         String[] items = splitCsv(listCsv);
         int index = -1;
         for (int i = 0; i < items.length; i++) {
-            if (items[i].equals(value)) { 
+            if (items[i].equals(value)) {
                 index = i;
                 break;
             }
@@ -94,15 +94,13 @@ public class MathServiceController {
     }
 
     private String jsonResponse(String op, String inputList, String value, int outputIndex) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{");
-        sb.append(""operation":"").append(op).append("",");
-        sb.append(""inputlist":"").append(escape(inputList)).append("",");
-        sb.append(""value":"").append(escape(value)).append("",");
-        sb.append(""output":"").append(outputIndex).append(""");
-        sb.append("}");
-        return sb.toString();
+        return String.format(
+            "{\"operation\":\"%s\",\"inputlist\":\"%s\",\"value\":\"%s\",\"output\":%d}",
+            escape(op), escape(inputList), escape(value), outputIndex
+        );
     }
 
+    private String escape(String s) {
+        return s.replace("\"", "\\\"");
     }
 }

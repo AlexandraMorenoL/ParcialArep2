@@ -1,0 +1,97 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Math Client (Proxy)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:720px;margin:2rem auto;padding:0 1rem}
+    .card{border:1px solid #ddd;border-radius:12px;padding:1rem;margin-bottom:1rem}
+    label{display:block;margin:.5rem 0 .25rem}
+    input{padding:.5rem;border:1px solid #ccc;border-radius:8px;width:120px}
+    button{padding:.5rem .8rem;border:1px solid #333;background:#111;color:#fff;border-radius:8px;cursor:pointer}
+    .row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+    #log{white-space:pre-wrap;background:#fafafa;border:1px dashed #ccc;padding:1rem;border-radius:8px}
+    small{color:#666}
+  </style>
+</head>
+<body>
+  <h1>Math Client → Proxy → Math Services</h1>
+  <p>Cliente HTML/JS (sin librerías) que invoca el <strong>PROXY</strong>. El proxy reenvía con <em>round-robin</em> a dos instancias.</p>
+
+  <div class="card">
+    <h3>Fibonacci</h3>
+    <div class="row">
+      <label for="fibn">n</label>
+      <input type="number" id="fibn" min="0" max="92" value="10">
+      <button onclick="call('/api/fib?n='+document.getElementById('fibn').value)">Calcular</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Factorial</h3>
+    <div class="row">
+      <label for="factn">n</label>
+      <input type="number" id="factn" min="0" max="20" value="10">
+      <button onclick="call('/api/fact?n='+document.getElementById('factn').value)">Calcular</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>¿Es primo?</h3>
+    <div class="row">
+      <label for="primen">n</label>
+      <input type="number" id="primen" min="0" value="97">
+      <button onclick="call('/api/isPrime?n='+document.getElementById('primen').value)">Verificar</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Linear Search</h3>
+    <div class="row">
+      <label for="lslist">Lista (csv)</label>
+      <input type="text" id="lslist" value="10,20,13,40,60" style="width:260px">
+      <label for="lsval">Valor</label>
+      <input type="text" id="lsval" value="13">
+      <button onclick="call('/linearsearch?list='+encode(document.getElementById('lslist').value)+'&value='+encode(document.getElementById('lsval').value))">Buscar</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Binary Search (lista ordenada)</h3>
+    <div class="row">
+      <label for="bslist">Lista (csv)</label>
+      <input type="text" id="bslist" value="10,13,20,40,60" style="width:260px">
+      <label for="bsval">Valor</label>
+      <input type="text" id="bsval" value="13">
+      <button onclick="call('/binarysearch?list='+encode(document.getElementById('bslist').value)+'&value='+encode(document.getElementById('bsval').value))">Buscar</button>
+    </div>
+    <small>La búsqueda binaria requiere lista ordenada (lexicográfica).</small>
+  </div>
+
+  <div class="card">
+    <h3>Targets configurados</h3>
+    <button onclick="call('/api/targets')">Ver targets</button>
+    <small>Defínalos con la variable <code>MATH_TARGETS</code>, p. ej. <code>http://10.0.1.10:8081,http://10.0.2.20:8081</code></small>
+  </div>
+
+  <h3>Respuesta</h3>
+  <div id="log">—</div>
+
+  <script>
+    function encode(s){return encodeURIComponent(s);}
+    function call(path){
+      const xhttp = new XMLHttpRequest();
+      xhttp.onload = function() {
+        document.getElementById("log").textContent = this.responseText;
+      }
+      xhttp.onerror = function() {
+        document.getElementById("log").textContent = "Error de red al invocar " + path;
+      }
+      xhttp.open("GET", path);
+      xhttp.send();
+    }
+  </script>
+</body>
+</html>

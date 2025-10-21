@@ -99,25 +99,17 @@ Al revisar la estructura ya tengo el Servicio de la aplicación y ahora debo cre
 
 ![alt text](image-1.png)
 
-Tengo unos errores para devolver la respuesta como se pide en el enunciado 
+Solucioné los errores que tenía en el jsresponse con este método 
 ```bash 
-Ejemplo 1 de un llamado:
- 
-https://amazonxxx.x.xxx.x.xxx:{port}/linearsearch?list=10,20,13,40,60&value=13
- 
-Salida. El formato de la salida y la respuesta debe ser un JSON con el siguiente formato
- 
-{
- "operation": "linearSearch",
- "inputlist": "10,20,13,40,60",
- "value": "13"
- "output":  "2"
-}
 
+private String jsonResponse(String op, String inputList, String value, int outputIndex) {
+        return String.format(
+            "{\"operation\":\"%s\",\"inputlist\":\"%s\",\"value\":\"%s\",\"output\":%d}",
+            escape(op), escape(inputList), escape(value), outputIndex
+        );
+    }
+    
 ```
-
-![alt text](image-7.png)
-
 
 Para la parte del proxy, creé el controlador, la aplicación del proxy el algotirmo round-robin
 
