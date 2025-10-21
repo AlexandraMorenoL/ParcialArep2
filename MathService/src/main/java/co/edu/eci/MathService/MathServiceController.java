@@ -104,13 +104,5 @@ public class MathServiceController {
         return sb.toString();
     }
 
-    
-private String escape(String s) {
-    if (s == null) return "";
-    String e = s.replace("\\", "\\\\").replace(""", "\\\"");
-    return e;
-}
-
-        return s.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 }
