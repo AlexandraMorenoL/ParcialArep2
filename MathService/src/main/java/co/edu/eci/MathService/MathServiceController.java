@@ -15,17 +15,6 @@ public class MathServiceController {
 
     
 
-    @GetMapping("/api/isPrime")
-    public boolean isPrime(@RequestParam("n") long n) {
-        if (n < 2) return false;
-        if (n % 2 == 0) return n == 2;
-        long limit = (long) Math.sqrt(n);
-        for (long d = 3; d <= limit; d += 2) {
-            if (n % d == 0) return false;
-        }
-        return true;
-    }
-
     @GetMapping(value="/linearsearch", produces= MediaType.APPLICATION_JSON_VALUE)
     public String linearSearch(@RequestParam("list") String listCsv,
                                @RequestParam("value") String value) {
